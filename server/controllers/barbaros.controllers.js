@@ -23,6 +23,32 @@ export const getClientes = async (req, res) => {
   }
 }
 
+export const getCliente = async (req, res) => {
+  try {
+    const id = Number(req.params.id)
+    const [result] = await pool.query(
+      "SELECT * FROM clientes WHERE id_cliente = ?", [id]
+    )
+    res.json(result)
+  } catch (error) {
+    console.error(error)
+    req.status(500).json({ message: "Connection error"})
+  }
+}
+
+export const getPedido = async(req, res) => {
+  try{
+    const id = Number(req.params.id)
+    const [result] = await pool.query(
+      "SELECT * FROM pedidos INNER JOIN clientes ON pedidos.id_cliente = clientes.id_cliente WHERE id_pedido = ?", [id]
+    )
+    res.json(result)
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({ message: "Connection error"})
+  }
+}
+
 export const createCliente = async (req, res) => {
   try {
     const {nombre, telefono, direccion} = req.body
@@ -43,20 +69,57 @@ export const createCliente = async (req, res) => {
 
 export const createPedido = async (req, res) => {
   try {
-    const {tradicionales, espanoles, cliente_id, fecha_entrega} = req.body
-    const result = await pool.query(
-    "INSERT INTO pedidos (tradicionales, espanoles, cliente_id, fecha_entrega) VALUES (?, ?, ?, ?)", [tradicionales, espanoles, cliente_id, fecha_entrega]
+    const {tradicionales, espanoles, id_cliente, fecha_entrega} = req.body
+    const [result] = await pool.query(
+    "INSERT INTO pedidos (tradicionales, espanoles, id_cliente, fecha_entrega) VALUES (?, ?, ?, ?)", [tradicionales, espanoles, id_cliente, fecha_entrega]
   )
   console.log(result)
   res.json({
     id: result.id,
     tradicionales,
     espanoles,
-    cliente_id,
+    id_cliente,
     fecha_entrega
   })
 
   } catch (error) {
+    console.error(error)
     return res.status(500).json({ message: "Connection error" })
   }
 }
+
+export const deletePedido = async (req, res) => {
+  try{
+    const id = Number(req.params.id)
+    const [result] = await pool.query(
+      "DELETE FROM pedidos WHERE id_pedido = ?", [id]
+    )
+    if(result.affectedRows === 0){
+      res.status(404).json({ message: "Pedido not found" })
+    }
+    else{
+      res.status(204).json({ message: "Pedido deleted"})
+    }
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({ message: "Connection error"})
+  }
+}
+
+export const deleteCliente = async (req, res) => {
+  try{
+    const id = Number(req.params.id)
+    const [result] = await pool.query(
+      "DELETE FROM clientes WHERE id_cliente = ?", [id]
+    )
+    if(result.affectedRows === 0){
+      res.status(404).json({ message: "Cliente not found" })
+    } else {
+      res.status(204).json({ message: "Cliente deleted"})
+    }
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({ message: "Connection error" })
+  }
+}
+
