@@ -123,3 +123,30 @@ export const deleteCliente = async (req, res) => {
   }
 }
 
+export const updateCliente = async (req, res) => {
+  try{
+    const id = Number(req.params.id)
+    const [result] = await pool.query(
+      "UPDATE clientes SET ? WHERE id_cliente = ?", [req.body, id]
+    )
+    console.log(result)
+    res.json(result)
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({ message: "Connection error"})
+  }
+}
+
+export const updatePedido = async (req, res) => {
+  try{
+    const id = Number(req.params.id)
+    console.log(req.body)
+    const [result] = await pool.query(
+      "UPDATE pedidos SET ? WHERE id_pedido = ?", [req.body, id]
+    )
+    res.json(result)
+  } catch (error){
+    console.error(error)
+    res.status(500).json({ message: "Connection error" })
+  }
+}

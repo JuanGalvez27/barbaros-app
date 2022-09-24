@@ -7,7 +7,9 @@ import {
   deletePedido,
   deleteCliente,
   getCliente,
-  getPedido
+  getPedido,
+  updateCliente,
+  updatePedido
 } from '../controllers/barbaros.controllers.js'
 
 const router = Router()
@@ -27,5 +29,7 @@ router.delete('/api/pedidos/:id', deletePedido)
 router.delete('/api/clientes/:id', deleteCliente)
 
 // UPDATE
+router.put('/api/clientes/:id', updateCliente)
+router.put('/api/pedidos/:id', updatePedido)
 
 export default router
