@@ -1,8 +1,8 @@
 module.exports = {
   env: {
     browser: true,
-    commonjs: true,
-    es2021: true
+    es2021: true,
+    node: true
   },
   extends: [
     'plugin:react/recommended',
@@ -11,7 +11,8 @@ module.exports = {
   overrides: [
   ],
   parserOptions: {
-    ecmaVersion: 'latest'
+    ecmaVersion: 'latest',
+    sourceType: 'module'
   },
   plugins: [
     'react'
