@@ -3,7 +3,7 @@ import express, { json } from "express"
 import barbarosRoutes from './routes/barbaros.routes.js'
 import { PORT } from "./config.js";
 import morgan from 'morgan'
-
+import cors from 'cors'
 // Inicializacion
 const app = express();
 
@@ -11,6 +11,7 @@ const app = express();
 app.use(morgan('tiny'))
 app.use(express.json())
 app.use(barbarosRoutes)
+app.use(cors())
 
 // Configuraciones
 app.listen(PORT);

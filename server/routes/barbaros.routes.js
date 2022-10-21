@@ -9,7 +9,8 @@ import {
   getCliente,
   getPedido,
   updateCliente,
-  updatePedido
+  updatePedido,
+  getProductos
 } from '../controllers/barbaros.controllers.js'
 
 const router = Router()
@@ -19,6 +20,7 @@ router.get('/api/pedidos', getPedidos)
 router.get('/api/clientes', getClientes)
 router.get('/api/clientes/:id', getCliente)
 router.get('/api/pedidos/:id', getPedido)
+router.get('/api/productos', getProductos)
 
 // POST
 router.post('/api/clientes', createCliente)

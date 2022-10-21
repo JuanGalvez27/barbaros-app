@@ -1,5 +1,7 @@
 import { pool } from '../db.js'
 
+
+// Getters
 export const getPedidos = async (req, res) => {
   try{
     const [pedidos] = await pool.query(
@@ -9,6 +11,18 @@ export const getPedidos = async (req, res) => {
   } catch (error) {
     console.error(error)
     res.status(500),json({ message: "Connection error" })
+  }
+}
+
+export const getProductos = async (req, res) => {
+  try{
+    const [productos] = await pool.query(
+      "SELECT * FROM productos"
+    )
+    res.json(productos)
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({ message: "Connection error"})
   }
 }
 
